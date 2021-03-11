@@ -12,7 +12,9 @@ In your flutter project add the dependency:
 ```yml
 dependencies:
   ...
-  trust_fall: ^1.0.4
+  trust_fall: 
+    git:
+      url: git://github.com/kitoneat/trust_fall.git
 ```
 
 

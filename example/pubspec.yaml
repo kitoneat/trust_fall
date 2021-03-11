@@ -1,6 +1,7 @@
 name: trust_fall_example
 description: Demonstrates how to use the trust_fall plugin.
 publish_to: 'none'
+version: 1.0.0+0
 
 environment:
   sdk: ">=2.1.0 <3.0.0"

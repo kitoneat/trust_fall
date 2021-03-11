@@ -24,6 +24,13 @@ class TrustFall {
     return isRealDevice;
   }
 
+  // Checks whether device is real or emulator
+  static Future<String> get signatureKeyHash async {
+    final String signatureKeyHashStr =
+        await _channel.invokeMethod('getSignatureKeyHash');
+    return signatureKeyHashStr;
+  }
+
   // (ANDROID ONLY) Check if application is running on external storage
   static Future<bool> get isOnExternalStorage async {
     final bool isOnExternalStorage =
