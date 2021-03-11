@@ -45,7 +45,7 @@ public class TrustFallPlugin implements MethodCallHandler {
             for (Signature signature : info.signatures) {
                 MessageDigest md = MessageDigest.getInstance("SHA");
                 md.update(signature.toByteArray());
-                return Base64.encodeToString(md.digest(), Base64.DEFAULT);
+                return Base64.encodeToString(md.digest(), Base64.DEFAULT).trim();
             }
         } catch (Exception e) {}
 
