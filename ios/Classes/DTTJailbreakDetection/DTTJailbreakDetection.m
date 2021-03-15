@@ -90,8 +90,12 @@
     if ([[UIApplication sharedApplication] canOpenURL:[NSURL URLWithString:@"cydia://package/com.example.package"]]) {
         return YES;
     }
+    
+    if([DTTJailbreakDetection _isDebuggingMode]) {
+        return YES;
+    }
 
-    NSArray *runningProcess = [self _runningProcesses];
+    NSArray *runningProcess = [DTTJailbreakDetection _runningProcesses];
     if(runningProcess && [runningProcess indexOfObjectPassingTest:^BOOL(id  _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         NSString *processName = [[obj valueForKey:@"ProcessName"] lowercaseString];
         if([processName hasPrefix:@"frida"] || [processName hasPrefix:@"cydia"] || [processName hasPrefix:@"exposed"]) {
@@ -107,6 +111,21 @@
 #endif
     
     return NO;
+}
+
++ (BOOL) _isDebuggingMode {
+    
+    int name[4];
+    name[0] = CTL_KERN;
+    name[1] = KERN_PROC;
+    name[2] = KERN_PROC_PID;
+    name[3] = getpid();
+    
+    struct kinfo_proc info;
+    size_t info_size = sizeof(info);
+    sysctl(name, 4, &info, &info_size, NULL, 0);
+    
+    return ((info.kp_proc.p_flag & P_TRACED) != 0);
 }
 
 + (NSArray *)_runningProcesses {
